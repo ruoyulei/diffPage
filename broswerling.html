@@ -1,0 +1,18 @@
+<html>
+<body>
+	<div id="browserling"></div>
+</body>
+<script src="https://api.browserling.com/v1/browserling.js"></script>
+
+<script>
+var token = '370dafb7d946034839b88cfc194bd418';
+var browserling = new Browserling(token);
+browserling.setBrowser('firefox');
+browserling.setVersion('37');
+browserling.setUrl('http://www.twitter.com');
+
+var div = document.querySelector('#browserling');
+div.appendChild(browserling.iframe());
+div.appendChild(iframe);
+</script>
+</html>
