@@ -22,6 +22,8 @@ var js = null;
 var fs = require('fs');
 app.use(bodyParser());
 
+app.use(express.static(__dirname + '/public'));
+
 app.get('/',function(req,res){
   var html = fs.readFileSync('index.html');
   res.writeHead(200, {'Content-Type': 'text/html'});
@@ -40,7 +42,7 @@ app.post('/', function(req, res){
       /* generate random number */
       var random = randomResult();
 
-      app.use(express.static(__dirname + '/public'));
+      
       fs.mkdirSync(__dirname + '/public/' + random);
       fs.writeFile(__dirname+'/public/'+random+'/index.html', file, function(err) {
         if(err){
