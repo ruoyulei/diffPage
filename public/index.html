@@ -1,0 +1,42 @@
+<html>
+<body>
+    <p>
+	<font size="15">Put your code or text here and submit Make sure to use 'main.js' and 'style.css' in html</font>
+    </p>
+    <form method="post" action="http://ec2-52-0-191-247.compute-1.amazonaws.com:3000">
+        <textarea name="name" cols="40" rows="10" placeholder="Put HTML or text here"></textarea>
+	<textarea name="css" cols="40" rows="10" placeholder="Put CSS here"></textarea>
+	<textarea name="js" cols="40" rows="10" placeholder="Put javascript here"></textarea>
+	<p>
+          <input type="submit" value="Submit" />
+	</P>
+    </form>
+
+    <script type="text/JavaScript">
+        console.log('begin');
+        var http = new XMLHttpRequest();
+        var params = "text=stuff";
+        http.open("POST", "http://localhost:3000", true);
+
+        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        //http.setRequestHeader("Content-length", params.length);
+        //http.setRequestHeader("Connection", "close");
+
+        http.onreadystatechange = function() {
+            console.log('onreadystatechange');
+            if (http.readyState == 4 && http.status == 200) {
+                alert(http.responseText);
+            }
+            else {
+                console.log('readyState=' + http.readyState + ', status: ' + http.status);
+            }
+        }
+
+        console.log('sending...')
+        http.send(params);
+        console.log('end');
+
+    </script>
+
+</body>
+</html>
