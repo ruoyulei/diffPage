@@ -1,127 +1,49 @@
-<!DOCTYPE html>
 <html>
-<head>
-    <title>Sample chart</title>
-    <script src="http://d3js.org/d3.v3.min.js"  charset="utf-8"></script>
-</head>
+<body>
+    <p>
+	<font size="15">Put your code or text here and submit Make sure to use 'main.js' and 'style.css' in html</font>
+    </p>
+    <form method="post" action="http://ec2-52-0-191-247.compute-1.amazonaws.com:3000">
+        <textarea name="name" cols="40" rows="10" placeholder="Put HTML or text here"></textarea>
+	<textarea name="css" cols="40" rows="10" placeholder="Put CSS here"></textarea>
+	<textarea name="js" cols="40" rows="10" placeholder="Put javascript here"></textarea>
+	<div>
+	  <select name="selection">
+	    <option name"ie" value="ie">IE</option>
+	    <option name="chrome" value="chrome">Chrome</option>
+	    <option name="firefox" value="firefox">FireFox</option>
+	 </select>
+	</div>
+	<p>
+          <input type="submit" value="Submit" />
+	</P>
+    </form>
 
+    <script type="text/JavaScript">
+        console.log('begin');
+        var http = new XMLHttpRequest();
+        var params = "text=stuff";
+        http.open("POST", "http://localhost:3000", true);
 
-  <body>
-      <div id="chart"></div>
+        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        //http.setRequestHeader("Content-length", params.length);
+        //http.setRequestHeader("Connection", "close");
 
-      <table border = "2px">
-        <tr>
-          <td align = "center">Chart Control</td>
-        </tr>
-        <tr>
-          <td>
-
-            <form action="demo_form.asp" id = "form1">
-              Padding: <input type="number" name="padding" value="1"> px<br>
-              Margin: <input type="number" name="margin" value="1"> px<br>
-              Text Color: <input type ="text" name = "tColor" id = "tColor" value = "white"> <br> 
-              Bar Color: <input type ="text" name = "bColor" id = "bColor" value = "black"> <br>
-              Font Size: <input type = "number" name = "fSize" id = "fSize" value = "10">px <br>
-              <!-- Max: <input type = "number" name = "max" value ="420" id = "max"><br> -->
-
-
-              <br>
-              <em>Text-align</em><br>
-              <input type="radio" name="align" value="left" id = "left">Left<br>
-              <input type="radio" name="align" value="right" id = "right" checked = "true">Right<br>
-              <input id = "button" type="button" value="Update Chart" onclick = "update()">
-          </form>
-
-
-          </td>
-        </tr>
-      </table>
-
-
-
-      <style>
-        #chart div {
-          font: 10px sans-serif;
-          background-color:black;
-          text-align:right;
-          padding:1px;
-          margin:1px;
-          color:white;
+        http.onreadystatechange = function() {
+            console.log('onreadystatechange');
+            if (http.readyState == 4 && http.status == 200) {
+                alert(http.responseText);
+            }
+            else {
+                console.log('readyState=' + http.readyState + ', status: ' + http.status);
+            }
         }
 
-        #button {
-          font-style: italic;
-          font-size: 20px;
-          text-align: center;
-          width: 300px;
-        }
-      </style>
+        console.log('sending...')
+        http.send(params);
+        console.log('end');
 
+    </script>
 
-
-      <script>
-      
-
-      var data = [4, 8, 15, 16, 23, 42];
-      var max = 420;
-      var x = d3.scale.linear()
-          .domain([0, d3.max(data)])
-          .range([0, max]);
-
-      d3.select("#chart")
-        .selectAll("div")
-          .data(data)
-        .enter().append("div")
-          .style("width", function(d) { return x(d) + "px"; })
-          .text(function(d) { return d; });
-
-
-        function update() {
-
-
-
-          var sheet = document.createElement('style');
-          var paddingValue = document.forms[0].elements['padding'].value;
-          var marginValue = document.forms[0].elements['margin'].value;
-          var tColor = document.getElementById("tColor").value;
-          var bColor = document.getElementById("bColor").value;
-          var fSize = document.getElementById("fSize").value;
-          var textAlign;
-
-          
-
-          if (document.getElementById("left").checked == true) {
-            textAlign = "left";
-          } else {
-            textAlign = "right";
-          }
-          
-          sheet.innerHTML = "#chart div {padding: " + paddingValue +"px; margin: " 
-                            + marginValue +"px; text-align: " + textAlign + "; background-color: " 
-                            + bColor + "; color: " + tColor + "; font: " + fSize + "px sans-serif; }";
-          document.body.appendChild(sheet);
-
-
-          
-        /* if max got changed, re run the d3 code
-        if (document.getElementById("max").value != 420) {
-            alert ("max is wrong@");
-            var data = [4, 8, 15, 16, 23, 42];
-            var max2 = document.getElementById("max").value ;
-            var x = d3.scale.linear()
-                  .domain([0, d3.max(data)])
-                  .range([0, max2]);
-
-              d3.select("#chart")
-                .selectAll("div")
-                  .data(data)
-                .enter().append("div")
-                  .style("width", function(d) { return x(d) + "px"; })
-                  .text(function(d) { return d; });
-          }
-        }*/
-      }
-
-      </script>
-  </body>
+</body>
 </html>
