@@ -19,7 +19,8 @@ var dir ='tmp';
 var file = null;
 var css = null;
 var js = null;
-var selection = null;
+var broswer = null;
+var versionNumber = null;
 var fs = require('fs');
 app.use(bodyParser());
 
@@ -37,8 +38,11 @@ app.post('/', function(req, res){
     file = req.body.name;
     css =req.body.css;
     js = req.body.js;
-    selection = req.body.selection;
-    console.log(selection);
+    
+    broswer = req.body.broswer;
+    versionNumber = req.body.selection;
+    console.log('Broswer is: '+broswer);
+    console.log('versionNumber is: '+ versionNumber);
     res.writeHead(200, {'Content-Type': 'text/html'});
     //res.end('thanks');
     if(file != null){
@@ -70,20 +74,21 @@ app.post('/', function(req, res){
       console.log('File was saved!');
     });
 
-      var address = "http://ec2-52-0-191-247.compute-1.amazonaws.com:3000/"+
+      var address = "http://localhost/"+
         random+"/";
-      var version = getVersion(selection);
+      var version = versionNumber;
       var b =
 
 "<html>"+
 "<body>"+
+"<a>Remember your Diffpage ID is: " + random +" </a>"+
 "       <div id=\"browserling\"></div>"+
 "</body>"+
 "<script src=\"https://api.browserling.com/v1/browserling.js\"></script>"+
 "<script>"+
 "var token = '370dafb7d946034839b88cfc194bd418';"+
 "var browserling = new Browserling(token);"+
-"browserling.setBrowser('"+selection+"');"+
+"browserling.setBrowser('"+broswer+"');"+
 "browserling.setVersion('"+version+"');"+
 "browserling.setUrl('"+address+"');"+
 "var div = document.querySelector('#browserling');"+
@@ -100,15 +105,6 @@ app.post('/', function(req, res){
    
 });
 
-function getVersion(selection) {
-  if (selection == "chrome"){
-	return "40";
-  }else if(selection == "ie"){
-	return "10";
-  }else if(selection == "firefox"){
-	return "38";
-  }
-}
 
 var selections = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", 
 "2", "3", "4", "5", "6", "7", "8", "9" ]
@@ -141,7 +137,7 @@ if(dir != null){
 }
 */
 
-var server = app.listen(3000, function () {
+var server = app.listen(80, function () {
   var host = server.address().address;
   var port = server.address().port;
 
